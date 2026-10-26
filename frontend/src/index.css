@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --hero-glow: radial-gradient(circle at 80% 20%, rgba(242, 204, 103, 0.35), transparent 45%);
+    --field-wash: linear-gradient(135deg, #E7F5EC 0%, #F7FAF7 55%, #F5EEE7 100%);
+  }
+
+  body {
+    @apply bg-canvas text-ink-900 font-sans text-base leading-relaxed;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* Accessibility: Visible focus outline */
+  :focus-visible {
+    outline: 2px solid #216245;
+    outline-offset: 2px;
+  }
+}
+
+/* Custom background patterns */
+.bg-field-wash {
+  background: var(--field-wash);
+}
+
+.bg-hero-glow {
+  background-image: var(--hero-glow);
+}

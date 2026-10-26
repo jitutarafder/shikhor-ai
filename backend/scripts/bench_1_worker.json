@@ -1,0 +1,436 @@
+{
+  "workers": 1,
+  "timestamp": "2026-10-04T08:54:51.837602+00:00",
+  "tiers": [
+    {
+      "concurrency": 10,
+      "duration_seconds": 16.3,
+      "total_requests": 31,
+      "successful_requests": 31,
+      "failed_requests": 0,
+      "requests_per_second": 1.9,
+      "error_rate_pct": 0.0,
+      "status_counts": {
+        "200": 31
+      },
+      "overall_latency": {
+        "min": 1357.72,
+        "avg": 3335.53,
+        "p50": 2885.06,
+        "p95": 5136.95,
+        "p99": 10978.86,
+        "max": 10978.86
+      },
+      "ai_vision_latency": {
+        "min": 10978.86,
+        "avg": 10978.86,
+        "p50": 10978.86,
+        "p95": 10978.86,
+        "p99": 10978.86,
+        "max": 10978.86
+      },
+      "avg_ram_mb": 162.6,
+      "peak_ram_mb": 270.2,
+      "avg_cpu_percent": 0.0,
+      "endpoint_breakdown": {
+        "search_equipment": {
+          "count": 5,
+          "rps": 0.31,
+          "error_rate_pct": 0.0,
+          "min": 2135.84,
+          "avg": 3623.46,
+          "p50": 2885.06,
+          "p95": 5136.14,
+          "p99": 5136.14,
+          "max": 5136.14
+        },
+        "get_profile": {
+          "count": 10,
+          "rps": 0.61,
+          "error_rate_pct": 0.0,
+          "min": 1358.15,
+          "avg": 2999.72,
+          "p50": 2824.23,
+          "p95": 5136.86,
+          "p99": 5136.86,
+          "max": 5136.86
+        },
+        "list_crop_cases": {
+          "count": 4,
+          "rps": 0.25,
+          "error_rate_pct": 0.0,
+          "min": 1357.72,
+          "avg": 2123.15,
+          "p50": 2823.91,
+          "p95": 2951.98,
+          "p99": 2951.98,
+          "max": 2951.98
+        },
+        "list_conversations": {
+          "count": 7,
+          "rps": 0.43,
+          "error_rate_pct": 0.0,
+          "min": 1392.17,
+          "avg": 3297.74,
+          "p50": 2885.23,
+          "p95": 5136.95,
+          "p99": 5136.95,
+          "max": 5136.95
+        },
+        "login_request": {
+          "count": 3,
+          "rps": 0.18,
+          "error_rate_pct": 0.0,
+          "min": 3104.92,
+          "avg": 3790.68,
+          "p50": 3542.06,
+          "p95": 4725.06,
+          "p99": 4725.06,
+          "max": 4725.06
+        },
+        "readiness": {
+          "count": 1,
+          "rps": 0.06,
+          "error_rate_pct": 0.0,
+          "min": 1359.33,
+          "avg": 1359.33,
+          "p50": 1359.33,
+          "p95": 1359.33,
+          "p99": 1359.33,
+          "max": 1359.33
+        },
+        "ai_crop_prediction": {
+          "count": 1,
+          "rps": 0.06,
+          "error_rate_pct": 0.0,
+          "min": 10978.86,
+          "avg": 10978.86,
+          "p50": 10978.86,
+          "p95": 10978.86,
+          "p99": 10978.86,
+          "max": 10978.86
+        }
+      }
+    },
+    {
+      "concurrency": 25,
+      "duration_seconds": 19.04,
+      "total_requests": 46,
+      "successful_requests": 46,
+      "failed_requests": 0,
+      "requests_per_second": 2.42,
+      "error_rate_pct": 0.0,
+      "status_counts": {
+        "200": 46
+      },
+      "overall_latency": {
+        "min": 5263.27,
+        "avg": 7758.66,
+        "p50": 6914.98,
+        "p95": 15622.79,
+        "p99": 17286.54,
+        "max": 17286.54
+      },
+      "ai_vision_latency": {
+        "min": 9498.14,
+        "avg": 13299.24,
+        "p50": 15506.91,
+        "p95": 17286.54,
+        "p99": 17286.54,
+        "max": 17286.54
+      },
+      "avg_ram_mb": 157.7,
+      "peak_ram_mb": 189.8,
+      "avg_cpu_percent": 0.0,
+      "endpoint_breakdown": {
+        "get_profile": {
+          "count": 12,
+          "rps": 0.63,
+          "error_rate_pct": 0.0,
+          "min": 5263.27,
+          "avg": 6468.57,
+          "p50": 6380.84,
+          "p95": 6942.63,
+          "p99": 6942.63,
+          "max": 6942.63
+        },
+        "search_equipment": {
+          "count": 6,
+          "rps": 0.32,
+          "error_rate_pct": 0.0,
+          "min": 6381.38,
+          "avg": 6738.21,
+          "p50": 6916.02,
+          "p95": 6918.09,
+          "p99": 6918.09,
+          "max": 6918.09
+        },
+        "readiness": {
+          "count": 1,
+          "rps": 0.05,
+          "error_rate_pct": 0.0,
+          "min": 6381.31,
+          "avg": 6381.31,
+          "p50": 6381.31,
+          "p95": 6381.31,
+          "p99": 6381.31,
+          "max": 6381.31
+        },
+        "list_crop_cases": {
+          "count": 14,
+          "rps": 0.74,
+          "error_rate_pct": 0.0,
+          "min": 6380.59,
+          "avg": 6572.44,
+          "p50": 6381.01,
+          "p95": 6920.48,
+          "p99": 6920.48,
+          "max": 6920.48
+        },
+        "list_conversations": {
+          "count": 5,
+          "rps": 0.26,
+          "error_rate_pct": 0.0,
+          "min": 6380.82,
+          "avg": 6811.4,
+          "p50": 6919.1,
+          "p95": 6920.39,
+          "p99": 6920.39,
+          "max": 6920.39
+        },
+        "ai_crop_prediction": {
+          "count": 8,
+          "rps": 0.42,
+          "error_rate_pct": 0.0,
+          "min": 9498.14,
+          "avg": 13299.24,
+          "p50": 15506.91,
+          "p95": 17286.54,
+          "p99": 17286.54,
+          "max": 17286.54
+        }
+      }
+    },
+    {
+      "concurrency": 50,
+      "duration_seconds": 20.69,
+      "total_requests": 50,
+      "successful_requests": 49,
+      "failed_requests": 1,
+      "requests_per_second": 2.42,
+      "error_rate_pct": 2.0,
+      "status_counts": {
+        "200": 49,
+        "504": 1
+      },
+      "overall_latency": {
+        "min": 13819.75,
+        "avg": 16040.21,
+        "p50": 15681.86,
+        "p95": 19425.25,
+        "p99": 20083.1,
+        "max": 20083.1
+      },
+      "ai_vision_latency": {
+        "min": 17815.01,
+        "avg": 19049.47,
+        "p50": 19204.59,
+        "p95": 20083.1,
+        "p99": 20083.1,
+        "max": 20083.1
+      },
+      "avg_ram_mb": 258.8,
+      "peak_ram_mb": 338.6,
+      "avg_cpu_percent": 0.0,
+      "endpoint_breakdown": {
+        "search_equipment": {
+          "count": 9,
+          "rps": 0.43,
+          "error_rate_pct": 0.0,
+          "min": 13819.75,
+          "avg": 15470.95,
+          "p50": 15680.47,
+          "p95": 15685.03,
+          "p99": 15685.03,
+          "max": 15685.03
+        },
+        "get_profile": {
+          "count": 11,
+          "rps": 0.53,
+          "error_rate_pct": 0.0,
+          "min": 13848.59,
+          "avg": 15516.58,
+          "p50": 15682.55,
+          "p95": 15687.13,
+          "p99": 15687.13,
+          "max": 15687.13
+        },
+        "list_crop_cases": {
+          "count": 10,
+          "rps": 0.48,
+          "error_rate_pct": 0.0,
+          "min": 13848.85,
+          "avg": 15493.81,
+          "p50": 15681.04,
+          "p95": 15686.43,
+          "p99": 15686.43,
+          "max": 15686.43
+        },
+        "list_conversations": {
+          "count": 8,
+          "rps": 0.39,
+          "error_rate_pct": 0.0,
+          "min": 15658.37,
+          "avg": 15670.71,
+          "p50": 15671.43,
+          "p95": 15681.21,
+          "p99": 15681.21,
+          "max": 15681.21
+        },
+        "readiness": {
+          "count": 2,
+          "rps": 0.1,
+          "error_rate_pct": 0.0,
+          "min": 15671.85,
+          "avg": 15676.27,
+          "p50": 15680.7,
+          "p95": 15680.7,
+          "p99": 15680.7,
+          "max": 15680.7
+        },
+        "login_request": {
+          "count": 3,
+          "rps": 0.14,
+          "error_rate_pct": 0.0,
+          "min": 15694.39,
+          "avg": 15695.7,
+          "p50": 15696.31,
+          "p95": 15696.38,
+          "p99": 15696.38,
+          "max": 15696.38
+        },
+        "ai_crop_prediction": {
+          "count": 7,
+          "rps": 0.34,
+          "error_rate_pct": 14.29,
+          "min": 17815.01,
+          "avg": 19049.47,
+          "p50": 19204.59,
+          "p95": 20083.1,
+          "p99": 20083.1,
+          "max": 20083.1
+        }
+      }
+    },
+    {
+      "concurrency": 100,
+      "duration_seconds": 20.9,
+      "total_requests": 100,
+      "successful_requests": 0,
+      "failed_requests": 100,
+      "requests_per_second": 4.78,
+      "error_rate_pct": 100.0,
+      "status_counts": {
+        "504": 100
+      },
+      "overall_latency": {
+        "min": 20388.8,
+        "avg": 20398.69,
+        "p50": 20399.4,
+        "p95": 20406.48,
+        "p99": 20408.93,
+        "max": 20408.93
+      },
+      "ai_vision_latency": {
+        "min": 20393.22,
+        "avg": 20400.7,
+        "p50": 20399.21,
+        "p95": 20408.93,
+        "p99": 20408.93,
+        "max": 20408.93
+      },
+      "avg_ram_mb": 185.1,
+      "peak_ram_mb": 231.7,
+      "avg_cpu_percent": 0.0,
+      "endpoint_breakdown": {
+        "get_profile": {
+          "count": 24,
+          "rps": 1.15,
+          "error_rate_pct": 100.0,
+          "min": 20389.65,
+          "avg": 20399.21,
+          "p50": 20400.59,
+          "p95": 20405.78,
+          "p99": 20406.48,
+          "max": 20406.48
+        },
+        "search_equipment": {
+          "count": 20,
+          "rps": 0.96,
+          "error_rate_pct": 100.0,
+          "min": 20391.0,
+          "avg": 20397.45,
+          "p50": 20397.82,
+          "p95": 20405.2,
+          "p99": 20405.2,
+          "max": 20405.2
+        },
+        "list_conversations": {
+          "count": 16,
+          "rps": 0.77,
+          "error_rate_pct": 100.0,
+          "min": 20388.8,
+          "avg": 20398.25,
+          "p50": 20399.4,
+          "p95": 20405.91,
+          "p99": 20405.91,
+          "max": 20405.91
+        },
+        "list_crop_cases": {
+          "count": 22,
+          "rps": 1.05,
+          "error_rate_pct": 100.0,
+          "min": 20389.84,
+          "avg": 20398.04,
+          "p50": 20400.02,
+          "p95": 20404.5,
+          "p99": 20404.85,
+          "max": 20404.85
+        },
+        "readiness": {
+          "count": 2,
+          "rps": 0.1,
+          "error_rate_pct": 100.0,
+          "min": 20393.19,
+          "avg": 20397.17,
+          "p50": 20401.16,
+          "p95": 20401.16,
+          "p99": 20401.16,
+          "max": 20401.16
+        },
+        "login_request": {
+          "count": 3,
+          "rps": 0.14,
+          "error_rate_pct": 100.0,
+          "min": 20396.71,
+          "avg": 20402.29,
+          "p50": 20402.21,
+          "p95": 20407.95,
+          "p99": 20407.95,
+          "max": 20407.95
+        },
+        "ai_crop_prediction": {
+          "count": 13,
+          "rps": 0.62,
+          "error_rate_pct": 100.0,
+          "min": 20393.22,
+          "avg": 20400.7,
+          "p50": 20399.21,
+          "p95": 20408.93,
+          "p99": 20408.93,
+          "max": 20408.93
+        }
+      }
+    }
+  ]
+}

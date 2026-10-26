@@ -1,0 +1,6260 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Shikhor AI Backend",
+    "description": "Bangla-first Agricultural Support Platform API",
+    "version": "0.1.0"
+  },
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Check Health",
+        "description": "Returns basic service health information.",
+        "operationId": "check_health_api_v1_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HealthResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/health/readiness": {
+      "get": {
+        "tags": [
+          "health"
+        ],
+        "summary": "Check Readiness",
+        "description": "Performs deep readiness probe: DB ping, storage status, and provider circuit states.",
+        "operationId": "check_readiness_api_v1_health_readiness_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReadinessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/register": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Register",
+        "description": "Creates a new user account and returns authentication tokens.",
+        "operationId": "register_api_v1_auth_register_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/login": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Login",
+        "description": "Authenticates with phone and password, establishing a session.",
+        "operationId": "login_api_v1_auth_login_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/refresh": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Refresh",
+        "description": "Rotates refresh token and returns refreshed access/refresh pair.",
+        "operationId": "refresh_api_v1_auth_refresh_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/logout": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Logout",
+        "description": "Revokes the current refresh session.",
+        "operationId": "logout_api_v1_auth_logout_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/me": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Get Me",
+        "description": "Returns the authenticated profile of the current user.",
+        "operationId": "get_me_api_v1_auth_me_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/auth/onboarding": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "Complete Onboarding",
+        "description": "Submits step-3 role onboarding location and details.",
+        "operationId": "complete_onboarding_api_v1_auth_onboarding_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RoleOnboardingRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me/export": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Export all personal data archive (GDPR / Data Subject Access Right)",
+        "description": "Provides a complete, structured JSON export of all data associated with the user.",
+        "operationId": "export_my_data_api_v1_users_me_export_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Export My Data Api V1 Users Me Export Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/me": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Permanently delete or anonymize personal account (Right to Erasure)",
+        "description": "Anonymizes and deactivates the user account, purging active sessions and PII.",
+        "operationId": "delete_my_account_api_v1_users_me_delete",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": "string"
+                  },
+                  "title": "Response Delete My Account Api V1 Users Me Delete"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crop-cases": {
+      "post": {
+        "tags": [
+          "crop-assistant"
+        ],
+        "summary": "Submit Crop Case",
+        "description": "Uploads crop image, sanitizes derivative, runs AI guidance model, and records case.",
+        "operationId": "submit_crop_case_api_v1_crop_cases_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/Body_submit_crop_case_api_v1_crop_cases_post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CropCaseResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "crop-assistant"
+        ],
+        "summary": "Get My Crop Cases",
+        "description": "Lists crop cases submitted by the authenticated user.",
+        "operationId": "get_my_crop_cases_api_v1_crop_cases_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 20,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CropCaseResponse"
+                  },
+                  "title": "Response Get My Crop Cases Api V1 Crop Cases Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crop-cases/{case_id}": {
+      "get": {
+        "tags": [
+          "crop-assistant"
+        ],
+        "summary": "Get Crop Case Details",
+        "description": "Retrieves single crop case, verifying object-level ownership.",
+        "operationId": "get_crop_case_details_api_v1_crop_cases__case_id__get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CropCaseResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crop-cases/{case_id}/feedback": {
+      "post": {
+        "tags": [
+          "crop-assistant"
+        ],
+        "summary": "Give Case Feedback",
+        "description": "Submits farmer evaluation on AI diagnosis accuracy and safety.",
+        "operationId": "give_case_feedback_api_v1_crop_cases__case_id__feedback_post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CropFeedbackCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CropFeedbackResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/expert/cases/pending": {
+      "get": {
+        "tags": [
+          "expert"
+        ],
+        "summary": "List crop cases awaiting agricultural expert review (Expert/Admin only)",
+        "description": "Retrieves uncertain, unsupported, or escalated crop cases requiring expert diagnosis.",
+        "operationId": "list_pending_cases_api_v1_expert_cases_pending_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "crop_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Crop Type"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CropCaseResponse"
+                  },
+                  "title": "Response List Pending Cases Api V1 Expert Cases Pending Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/expert/cases/{case_id}/review": {
+      "post": {
+        "tags": [
+          "expert"
+        ],
+        "summary": "Submit official agricultural diagnosis and vetted prescription (Expert/Admin only)",
+        "description": "Submits vetted diagnosis, updates case state, and logs immutable audit trail.",
+        "operationId": "submit_case_review_api_v1_expert_cases__case_id__review_post",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExpertCaseReviewCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpertCaseReviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "expert"
+        ],
+        "summary": "Get expert review for a crop case (Open to case owner/authenticated)",
+        "description": "Retrieves the official expert review for a crop case.",
+        "operationId": "get_case_review_api_v1_expert_cases__case_id__review_get",
+        "parameters": [
+          {
+            "name": "case_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Case Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExpertCaseReviewResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/equipment": {
+      "post": {
+        "tags": [
+          "equipment"
+        ],
+        "summary": "Create New Equipment",
+        "description": "Creates a new machinery listing for an equipment owner.",
+        "operationId": "create_new_equipment_api_v1_equipment_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EquipmentCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipmentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "equipment"
+        ],
+        "summary": "Search Equipment",
+        "description": "Discovers nearby equipment ranked by the approved transparent 65/35 formula.",
+        "operationId": "search_equipment_api_v1_equipment_get",
+        "parameters": [
+          {
+            "name": "equipmentType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/EquipmentType"
+            }
+          },
+          {
+            "name": "priceUnit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/PriceUnit"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90.0,
+              "minimum": -90.0,
+              "title": "Latitude"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180.0,
+              "minimum": -180.0,
+              "title": "Longitude"
+            }
+          },
+          {
+            "name": "maxRadiusKm",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "maximum": 100.0,
+                  "minimum": 1.0
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Maxradiuskm"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EquipmentResponse"
+                  },
+                  "title": "Response Search Equipment Api V1 Equipment Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/equipment/my": {
+      "get": {
+        "tags": [
+          "equipment"
+        ],
+        "summary": "Get My Equipment",
+        "description": "Retrieves all equipment listings managed by the current user.",
+        "operationId": "get_my_equipment_api_v1_equipment_my_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/EquipmentResponse"
+                  },
+                  "title": "Response Get My Equipment Api V1 Equipment My Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/equipment/{equipment_id}": {
+      "get": {
+        "tags": [
+          "equipment"
+        ],
+        "summary": "Get Equipment Details",
+        "description": "Retrieves single machinery details.",
+        "operationId": "get_equipment_details_api_v1_equipment__equipment_id__get",
+        "parameters": [
+          {
+            "name": "equipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Equipment Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipmentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "equipment"
+        ],
+        "summary": "Update Equipment Details",
+        "description": "Updates equipment details, verifying listing ownership.",
+        "operationId": "update_equipment_details_api_v1_equipment__equipment_id__patch",
+        "parameters": [
+          {
+            "name": "equipment_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Equipment Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EquipmentUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipmentResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rentals": {
+      "post": {
+        "tags": [
+          "rentals"
+        ],
+        "summary": "Create Rental Request",
+        "description": "Creates a rental request for agricultural machinery with idempotency protection.",
+        "operationId": "create_rental_request_api_v1_rentals_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RentalRequestCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "rentals"
+        ],
+        "summary": "Get My Rentals",
+        "description": "Retrieves all rental requests where current user is renter or equipment owner.",
+        "operationId": "get_my_rentals_api_v1_rentals_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/RentalRequestResponse"
+                  },
+                  "title": "Response Get My Rentals Api V1 Rentals Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rentals/{rental_id}": {
+      "get": {
+        "tags": [
+          "rentals"
+        ],
+        "summary": "Get Rental Details",
+        "description": "Retrieves a single rental request with object-level authorization.",
+        "operationId": "get_rental_details_api_v1_rentals__rental_id__get",
+        "parameters": [
+          {
+            "name": "rental_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Rental Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/rentals/{rental_id}/status": {
+      "patch": {
+        "tags": [
+          "rentals"
+        ],
+        "summary": "Update Rental Status",
+        "description": "Transitions rental request status through the centralized state machine.",
+        "operationId": "update_rental_status_api_v1_rentals__rental_id__status_patch",
+        "parameters": [
+          {
+            "name": "rental_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Rental Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RentalStatusUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RentalRequestResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/weather/plan": {
+      "get": {
+        "tags": [
+          "weather"
+        ],
+        "summary": "Get Farming Weather Plan",
+        "description": "Retrieves 3-day weather forecast and rule-based agricultural activity guidance.\n\nStrictly complies with AGENTS.md Rule 20:\n- Provider facts are structurally separated from product activity recommendations.\n- Captures provider timestamp, attribution, and stale/fallback indicators.",
+        "operationId": "get_farming_weather_plan_api_v1_weather_plan_get",
+        "parameters": [
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90.0,
+              "minimum": -90.0,
+              "title": "Latitude"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180.0,
+              "minimum": -180.0,
+              "title": "Longitude"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "District"
+            }
+          },
+          {
+            "name": "upazila",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Upazila"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WeatherPlanResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/weather/machinery-advisory": {
+      "get": {
+        "tags": [
+          "weather"
+        ],
+        "summary": "Check Machinery Weather Advisory",
+        "description": "Evaluates whether weather on the target rental date is safe for machinery operations.",
+        "operationId": "check_machinery_weather_advisory_api_v1_weather_machinery_advisory_get",
+        "parameters": [
+          {
+            "name": "equipmentType",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Equipmenttype"
+            }
+          },
+          {
+            "name": "targetDate",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Targetdate"
+            }
+          },
+          {
+            "name": "latitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 90.0,
+              "minimum": -90.0,
+              "title": "Latitude"
+            }
+          },
+          {
+            "name": "longitude",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "number",
+              "maximum": 180.0,
+              "minimum": -180.0,
+              "title": "Longitude"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EquipmentWeatherAdvisoryResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crop-listings": {
+      "post": {
+        "tags": [
+          "crop-marketplace"
+        ],
+        "summary": "Create New Crop Listing",
+        "description": "Creates a new crop listing for farmers.",
+        "operationId": "create_new_crop_listing_api_v1_crop_listings_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CropListingCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CropListingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "crop-marketplace"
+        ],
+        "summary": "Search Crops",
+        "description": "Public search for crop listings, hiding private contact details for user safety.",
+        "operationId": "search_crops_api_v1_crop_listings_get",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/CropCategory"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "District"
+            }
+          },
+          {
+            "name": "maxPrice",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Maxprice"
+            }
+          },
+          {
+            "name": "minQuantity",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number",
+                  "minimum": 0.1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Minquantity"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CropListingResponse"
+                  },
+                  "title": "Response Search Crops Api V1 Crop Listings Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crop-listings/my": {
+      "get": {
+        "tags": [
+          "crop-marketplace"
+        ],
+        "summary": "Get My Crop Listings",
+        "description": "Retrieves all crop listings posted by current farmer.",
+        "operationId": "get_my_crop_listings_api_v1_crop_listings_my_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CropListingResponse"
+                  },
+                  "title": "Response Get My Crop Listings Api V1 Crop Listings My Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/crop-listings/{listing_id}": {
+      "get": {
+        "tags": [
+          "crop-marketplace"
+        ],
+        "summary": "Get Crop Listing Details",
+        "description": "Retrieves single crop listing details.",
+        "operationId": "get_crop_listing_details_api_v1_crop_listings__listing_id__get",
+        "parameters": [
+          {
+            "name": "listing_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Listing Id"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CropListingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": [
+          "crop-marketplace"
+        ],
+        "summary": "Update Crop Listing Details",
+        "description": "Updates crop listing, verifying owner-only authorization (Rule 12).",
+        "operationId": "update_crop_listing_details_api_v1_crop_listings__listing_id__patch",
+        "parameters": [
+          {
+            "name": "listing_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Listing Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CropListingUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CropListingResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/conversations": {
+      "post": {
+        "tags": [
+          "messaging"
+        ],
+        "summary": "Start Or Get Conversation",
+        "description": "Initiates a conversation or retrieves an existing one with another user.",
+        "operationId": "start_or_get_conversation_api_v1_conversations_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConversationCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ConversationResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "messaging"
+        ],
+        "summary": "Get My Conversations",
+        "description": "Lists conversations where current user is an active participant.",
+        "operationId": "get_my_conversations_api_v1_conversations_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ConversationResponse"
+                  },
+                  "title": "Response Get My Conversations Api V1 Conversations Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/conversations/{conversation_id}/messages": {
+      "get": {
+        "tags": [
+          "messaging"
+        ],
+        "summary": "Get Messages",
+        "description": "Retrieves conversation messages with object-level participant authorization (Rule 12).",
+        "operationId": "get_messages_api_v1_conversations__conversation_id__messages_get",
+        "parameters": [
+          {
+            "name": "conversation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Conversation Id"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/MessageResponse"
+                  },
+                  "title": "Response Get Messages Api V1 Conversations  Conversation Id  Messages Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "messaging"
+        ],
+        "summary": "Post Message",
+        "description": "Sends a text message with authorization, block check, and spam frequency guard (Rule 27).",
+        "operationId": "post_message_api_v1_conversations__conversation_id__messages_post",
+        "parameters": [
+          {
+            "name": "conversation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Conversation Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/users/block": {
+      "post": {
+        "tags": [
+          "messaging"
+        ],
+        "summary": "Block Target User",
+        "description": "Blocks a user from communicating with the current user.",
+        "operationId": "block_target_user_api_v1_users_block_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserBlockRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Block Target User Api V1 Users Block Post"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/reports": {
+      "post": {
+        "tags": [
+          "messaging"
+        ],
+        "summary": "Submit Moderation Report",
+        "description": "Submits a report for abusive conduct, fraud, or inappropriate content.",
+        "operationId": "submit_moderation_report_api_v1_reports_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModerationReportCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModerationReportResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/knowledge": {
+      "get": {
+        "tags": [
+          "Knowledge Library"
+        ],
+        "summary": "List Knowledge",
+        "description": "Lists verified agricultural knowledge articles with version tracking for offline cache.",
+        "operationId": "list_knowledge_api_v1_knowledge_get",
+        "parameters": [
+          {
+            "name": "crop_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by crop (e.g. paddy, potato)",
+              "title": "Crop Type"
+            },
+            "description": "Filter by crop (e.g. paddy, potato)"
+          },
+          {
+            "name": "category",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Filter by category (disease, irrigation, etc.)",
+              "title": "Category"
+            },
+            "description": "Filter by category (disease, irrigation, etc.)"
+          },
+          {
+            "name": "since_version",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Incremental sync: only articles newer than version",
+              "title": "Since Version"
+            },
+            "description": "Incremental sync: only articles newer than version"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeCatalogResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/batch": {
+      "post": {
+        "tags": [
+          "Offline Synchronization"
+        ],
+        "summary": "Sync Batch",
+        "description": "Processes a batch of offline-queued mutations idempotently for the authenticated user.",
+        "operationId": "sync_batch_api_v1_sync_batch_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SyncBatchRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncBatchResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/sync/status": {
+      "get": {
+        "tags": [
+          "Offline Synchronization"
+        ],
+        "summary": "Sync Status",
+        "description": "Health and status check for synchronization service.",
+        "operationId": "sync_status_api_v1_sync_status_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "title": "Response Sync Status Api V1 Sync Status Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/metrics": {
+      "get": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Get Metrics",
+        "description": "Returns authoritative system-wide health and usage metrics.",
+        "operationId": "get_metrics_api_v1_admin_metrics_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminMetricsResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/reports": {
+      "get": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Get Reports",
+        "description": "Lists moderation reports with reporter and target user info.",
+        "operationId": "get_reports_api_v1_admin_reports_get",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ModerationReportDetailResponse"
+                  },
+                  "title": "Response Get Reports Api V1 Admin Reports Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/reports/{report_id}/resolve": {
+      "post": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Resolve Report",
+        "description": "Resolves or dismisses a report and audits the administrative action.",
+        "operationId": "resolve_report_api_v1_admin_reports__report_id__resolve_post",
+        "parameters": [
+          {
+            "name": "report_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "Report Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportResolveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModerationReportDetailResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users": {
+      "get": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Get Users",
+        "description": "Lists registered accounts for review.",
+        "operationId": "get_users_api_v1_admin_users_get",
+        "parameters": [
+          {
+            "name": "role",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Role"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AdminUserItem"
+                  },
+                  "title": "Response Get Users Api V1 Admin Users Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/users/{user_id}/status": {
+      "post": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Set User Status",
+        "description": "Toggles user account status (active/suspended) with audit trail.",
+        "operationId": "set_user_status_api_v1_admin_users__user_id__status_post",
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "title": "User Id"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserStatusToggleRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminUserItem"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/audit-logs": {
+      "get": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Get Audit Logs",
+        "description": "Retrieves immutable audit trail of privileged administrative operations.",
+        "operationId": "get_audit_logs_api_v1_admin_audit_logs_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "title": "Offset"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AuditLogResponse"
+                  },
+                  "title": "Response Get Audit Logs Api V1 Admin Audit Logs Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/admin/knowledge": {
+      "post": {
+        "tags": [
+          "Admin & Moderation"
+        ],
+        "summary": "Publish Knowledge",
+        "description": "Publishes a new verified agricultural advisory article with version tracking.",
+        "operationId": "publish_knowledge_api_v1_admin_knowledge_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/KnowledgeArticleCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KnowledgeArticleResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pilot/config": {
+      "get": {
+        "tags": [
+          "pilot"
+        ],
+        "summary": "Get Controlled Pilot Config",
+        "description": "Returns official controlled pilot configuration, focus districts, crops, and checklist.",
+        "operationId": "get_controlled_pilot_config_api_v1_pilot_config_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PilotDistrictCropConfig"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pilot/feedback": {
+      "post": {
+        "tags": [
+          "pilot"
+        ],
+        "summary": "Submit pilot task experience and comprehension feedback",
+        "description": "Records farmer or participant usability, Bangla comprehension, and device telemetry.",
+        "operationId": "submit_pilot_feedback_api_v1_pilot_feedback_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PilotFeedbackCreate"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PilotFeedbackResponse"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pilot/metrics": {
+      "get": {
+        "tags": [
+          "pilot"
+        ],
+        "summary": "Get authoritative Phase 9 pilot telemetry metrics (Admin/Moderator only)",
+        "description": "Calculates all 7 Phase 9 pilot metrics and Go/No-Go readiness checklist directly from the DB.",
+        "operationId": "get_pilot_telemetry_api_v1_pilot_metrics_get",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PilotTelemetryMetrics"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/pilot/feedback-list": {
+      "get": {
+        "tags": [
+          "pilot"
+        ],
+        "summary": "Get qualitative pilot feedback stream (Admin/Moderator only)",
+        "description": "Retrieves qualitative feedback stream for pilot observers and the moderation team.",
+        "operationId": "list_pilot_feedback_api_v1_pilot_feedback_list_get",
+        "parameters": [
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "default": 50,
+              "title": "Limit"
+            }
+          },
+          {
+            "name": "task_type",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Task Type"
+            }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "title": "Authorization"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/PilotFeedbackResponse"
+                  },
+                  "title": "Response List Pilot Feedback Api V1 Pilot Feedback List Get"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "root"
+        ],
+        "summary": "Root",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "AIEscalationMetrics": {
+        "properties": {
+          "total_crop_cases": {
+            "type": "integer",
+            "title": "Total Crop Cases"
+          },
+          "uncertain_or_unsupported_cases": {
+            "type": "integer",
+            "title": "Uncertain Or Unsupported Cases"
+          },
+          "escalated_cases": {
+            "type": "integer",
+            "title": "Escalated Cases"
+          },
+          "corrective_feedback_count": {
+            "type": "integer",
+            "title": "Corrective Feedback Count"
+          },
+          "escalation_rate_pct": {
+            "type": "number",
+            "title": "Escalation Rate Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_crop_cases",
+          "uncertain_or_unsupported_cases",
+          "escalated_cases",
+          "corrective_feedback_count",
+          "escalation_rate_pct"
+        ],
+        "title": "AIEscalationMetrics"
+      },
+      "ActivationAndTasksMetrics": {
+        "properties": {
+          "total_users": {
+            "type": "integer",
+            "title": "Total Users"
+          },
+          "completed_crop_cases": {
+            "type": "integer",
+            "title": "Completed Crop Cases"
+          },
+          "created_rental_requests": {
+            "type": "integer",
+            "title": "Created Rental Requests"
+          },
+          "created_crop_listings": {
+            "type": "integer",
+            "title": "Created Crop Listings"
+          },
+          "processed_sync_records": {
+            "type": "integer",
+            "title": "Processed Sync Records"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_users",
+          "completed_crop_cases",
+          "created_rental_requests",
+          "created_crop_listings",
+          "processed_sync_records"
+        ],
+        "title": "ActivationAndTasksMetrics"
+      },
+      "ActivityRecommendationSchema": {
+        "properties": {
+          "activityType": {
+            "$ref": "#/components/schemas/ActivityType"
+          },
+          "titleBn": {
+            "type": "string",
+            "title": "Titlebn"
+          },
+          "suitability": {
+            "$ref": "#/components/schemas/SuitabilityLevel"
+          },
+          "reasonSummaryBn": {
+            "type": "string",
+            "title": "Reasonsummarybn"
+          },
+          "guidanceBn": {
+            "type": "string",
+            "title": "Guidancebn"
+          },
+          "riskFactors": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Riskfactors"
+          }
+        },
+        "type": "object",
+        "required": [
+          "activityType",
+          "titleBn",
+          "suitability",
+          "reasonSummaryBn",
+          "guidanceBn"
+        ],
+        "title": "ActivityRecommendationSchema"
+      },
+      "ActivityType": {
+        "type": "string",
+        "enum": [
+          "spraying",
+          "harvesting",
+          "irrigation",
+          "machinery"
+        ],
+        "title": "ActivityType"
+      },
+      "AdminMetricsResponse": {
+        "properties": {
+          "totalUsers": {
+            "type": "integer",
+            "title": "Totalusers"
+          },
+          "farmersCount": {
+            "type": "integer",
+            "title": "Farmerscount"
+          },
+          "buyersCount": {
+            "type": "integer",
+            "title": "Buyerscount"
+          },
+          "ownersCount": {
+            "type": "integer",
+            "title": "Ownerscount"
+          },
+          "expertsCount": {
+            "type": "integer",
+            "title": "Expertscount"
+          },
+          "activeCropListings": {
+            "type": "integer",
+            "title": "Activecroplistings"
+          },
+          "totalRentalRequests": {
+            "type": "integer",
+            "title": "Totalrentalrequests"
+          },
+          "pendingModerationReports": {
+            "type": "integer",
+            "title": "Pendingmoderationreports"
+          },
+          "totalAuditEvents": {
+            "type": "integer",
+            "title": "Totalauditevents"
+          },
+          "systemStatus": {
+            "type": "string",
+            "title": "Systemstatus"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "totalUsers",
+          "farmersCount",
+          "buyersCount",
+          "ownersCount",
+          "expertsCount",
+          "activeCropListings",
+          "totalRentalRequests",
+          "pendingModerationReports",
+          "totalAuditEvents",
+          "systemStatus",
+          "timestamp"
+        ],
+        "title": "AdminMetricsResponse"
+      },
+      "AdminUserItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "fullName": {
+            "type": "string",
+            "title": "Fullname"
+          },
+          "role": {
+            "$ref": "#/components/schemas/UserRole"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "Isverified"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "phone",
+          "fullName",
+          "role",
+          "isActive",
+          "isVerified",
+          "createdAt"
+        ],
+        "title": "AdminUserItem"
+      },
+      "AuditLogResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "actorId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Actorid"
+          },
+          "actorPhone": {
+            "type": "string",
+            "title": "Actorphone"
+          },
+          "actorRole": {
+            "type": "string",
+            "title": "Actorrole"
+          },
+          "action": {
+            "type": "string",
+            "title": "Action"
+          },
+          "resourceType": {
+            "type": "string",
+            "title": "Resourcetype"
+          },
+          "resourceId": {
+            "type": "string",
+            "title": "Resourceid"
+          },
+          "details": {
+            "type": "string",
+            "title": "Details"
+          },
+          "requestId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Requestid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "actorPhone",
+          "actorRole",
+          "action",
+          "resourceType",
+          "resourceId",
+          "details",
+          "createdAt"
+        ],
+        "title": "AuditLogResponse"
+      },
+      "Body_submit_crop_case_api_v1_crop_cases_post": {
+        "properties": {
+          "image": {
+            "type": "string",
+            "format": "binary",
+            "title": "Image",
+            "description": "Crop leaf photo in JPEG, PNG, or WebP format"
+          },
+          "crop_type": {
+            "type": "string",
+            "title": "Crop Type",
+            "description": "Target crop (e.g., ধান, আলু, গম)"
+          },
+          "symptoms": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symptoms",
+            "description": "Observed symptoms in Bangla or English"
+          }
+        },
+        "type": "object",
+        "required": [
+          "image",
+          "crop_type"
+        ],
+        "title": "Body_submit_crop_case_api_v1_crop_cases_post"
+      },
+      "ComprehensionAndUsabilityMetrics": {
+        "properties": {
+          "total_feedback_submissions": {
+            "type": "integer",
+            "title": "Total Feedback Submissions"
+          },
+          "avg_ease_of_use": {
+            "type": "number",
+            "title": "Avg Ease Of Use"
+          },
+          "avg_bangla_comprehension": {
+            "type": "number",
+            "title": "Avg Bangla Comprehension"
+          },
+          "ai_limitations_comprehension_pct": {
+            "type": "number",
+            "title": "Ai Limitations Comprehension Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_feedback_submissions",
+          "avg_ease_of_use",
+          "avg_bangla_comprehension",
+          "ai_limitations_comprehension_pct"
+        ],
+        "title": "ComprehensionAndUsabilityMetrics"
+      },
+      "ConversationCreateRequest": {
+        "properties": {
+          "recipient_id": {
+            "type": "string",
+            "title": "Recipient Id"
+          },
+          "context_type": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 50
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Type"
+          },
+          "context_id": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 36
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Context Id"
+          },
+          "initial_message": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Initial Message"
+          }
+        },
+        "type": "object",
+        "required": [
+          "recipient_id"
+        ],
+        "title": "ConversationCreateRequest"
+      },
+      "ConversationResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "participant1Id": {
+            "type": "string",
+            "title": "Participant1Id"
+          },
+          "participant1Name": {
+            "type": "string",
+            "title": "Participant1Name"
+          },
+          "participant2Id": {
+            "type": "string",
+            "title": "Participant2Id"
+          },
+          "participant2Name": {
+            "type": "string",
+            "title": "Participant2Name"
+          },
+          "contextType": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contexttype"
+          },
+          "contextId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contextid"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "participant1Id",
+          "participant1Name",
+          "participant2Id",
+          "participant2Name",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "ConversationResponse"
+      },
+      "CropCaseResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "userId": {
+            "type": "string",
+            "title": "Userid"
+          },
+          "cropType": {
+            "type": "string",
+            "title": "Croptype"
+          },
+          "symptomsDescription": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Symptomsdescription"
+          },
+          "imageFilename": {
+            "type": "string",
+            "title": "Imagefilename"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CropCaseStatus"
+          },
+          "possibleCondition": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Possiblecondition"
+          },
+          "confidence": {
+            "type": "number",
+            "title": "Confidence"
+          },
+          "confidenceBand": {
+            "type": "string",
+            "title": "Confidenceband"
+          },
+          "reasonSummary": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Reasonsummary"
+          },
+          "guidance": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Guidance"
+          },
+          "escalationRecommended": {
+            "type": "boolean",
+            "title": "Escalationrecommended"
+          },
+          "modelVersion": {
+            "type": "string",
+            "title": "Modelversion"
+          },
+          "disclaimer": {
+            "type": "string",
+            "title": "Disclaimer"
+          },
+          "isReviewedByExpert": {
+            "type": "boolean",
+            "title": "Isreviewedbyexpert",
+            "default": false
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "userId",
+          "cropType",
+          "imageFilename",
+          "status",
+          "confidence",
+          "confidenceBand",
+          "reasonSummary",
+          "guidance",
+          "escalationRecommended",
+          "modelVersion",
+          "disclaimer",
+          "createdAt"
+        ],
+        "title": "CropCaseResponse"
+      },
+      "CropCaseStatus": {
+        "type": "string",
+        "enum": [
+          "possible_match",
+          "uncertain",
+          "unsupported",
+          "failed"
+        ],
+        "title": "CropCaseStatus"
+      },
+      "CropCategory": {
+        "type": "string",
+        "enum": [
+          "paddy",
+          "wheat",
+          "maize",
+          "potato",
+          "vegetable",
+          "pulse",
+          "oilseed",
+          "spice",
+          "fruit",
+          "other"
+        ],
+        "title": "CropCategory"
+      },
+      "CropFeedbackCreateRequest": {
+        "properties": {
+          "feedback_type": {
+            "$ref": "#/components/schemas/FeedbackType"
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comments"
+          }
+        },
+        "type": "object",
+        "required": [
+          "feedback_type"
+        ],
+        "title": "CropFeedbackCreateRequest"
+      },
+      "CropFeedbackResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "cropCaseId": {
+            "type": "string",
+            "title": "Cropcaseid"
+          },
+          "feedbackType": {
+            "$ref": "#/components/schemas/FeedbackType"
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comments"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cropCaseId",
+          "feedbackType",
+          "createdAt"
+        ],
+        "title": "CropFeedbackResponse"
+      },
+      "CropListingCreateRequest": {
+        "properties": {
+          "crop_name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Crop Name"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CropCategory"
+          },
+          "quantity": {
+            "type": "number",
+            "exclusiveMinimum": 0.0,
+            "title": "Quantity"
+          },
+          "quantity_unit": {
+            "$ref": "#/components/schemas/QuantityUnit"
+          },
+          "price_per_unit": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Price Per Unit",
+            "description": "Price in BDT"
+          },
+          "expected_harvest_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Expected Harvest Date"
+          },
+          "district": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "District"
+          },
+          "upazila": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Upazila"
+          },
+          "latitude": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Longitude"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "required": [
+          "crop_name",
+          "category",
+          "quantity",
+          "quantity_unit",
+          "price_per_unit",
+          "expected_harvest_date",
+          "district",
+          "upazila",
+          "latitude",
+          "longitude"
+        ],
+        "title": "CropListingCreateRequest"
+      },
+      "CropListingResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "farmerId": {
+            "type": "string",
+            "title": "Farmerid"
+          },
+          "farmerName": {
+            "type": "string",
+            "title": "Farmername"
+          },
+          "farmerRole": {
+            "type": "string",
+            "title": "Farmerrole"
+          },
+          "cropName": {
+            "type": "string",
+            "title": "Cropname"
+          },
+          "category": {
+            "$ref": "#/components/schemas/CropCategory"
+          },
+          "quantity": {
+            "type": "number",
+            "title": "Quantity"
+          },
+          "quantityUnit": {
+            "$ref": "#/components/schemas/QuantityUnit"
+          },
+          "pricePerUnit": {
+            "type": "integer",
+            "title": "Priceperunit"
+          },
+          "expectedHarvestDate": {
+            "type": "string",
+            "format": "date",
+            "title": "Expectedharvestdate"
+          },
+          "district": {
+            "type": "string",
+            "title": "District"
+          },
+          "upazila": {
+            "type": "string",
+            "title": "Upazila"
+          },
+          "approximateLat": {
+            "type": "number",
+            "title": "Approximatelat"
+          },
+          "approximateLon": {
+            "type": "number",
+            "title": "Approximatelon"
+          },
+          "status": {
+            "$ref": "#/components/schemas/CropListingStatus"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "farmerId",
+          "farmerName",
+          "farmerRole",
+          "cropName",
+          "category",
+          "quantity",
+          "quantityUnit",
+          "pricePerUnit",
+          "expectedHarvestDate",
+          "district",
+          "upazila",
+          "approximateLat",
+          "approximateLon",
+          "status",
+          "createdAt",
+          "updatedAt"
+        ],
+        "title": "CropListingResponse"
+      },
+      "CropListingStatus": {
+        "type": "string",
+        "enum": [
+          "active",
+          "paused",
+          "closed"
+        ],
+        "title": "CropListingStatus"
+      },
+      "CropListingUpdateRequest": {
+        "properties": {
+          "crop_name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Crop Name"
+          },
+          "quantity": {
+            "anyOf": [
+              {
+                "type": "number",
+                "exclusiveMinimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Quantity"
+          },
+          "price_per_unit": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Per Unit"
+          },
+          "expected_harvest_date": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expected Harvest Date"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/CropListingStatus"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          }
+        },
+        "type": "object",
+        "title": "CropListingUpdateRequest"
+      },
+      "DailyForecastSchema": {
+        "properties": {
+          "date": {
+            "type": "string",
+            "title": "Date"
+          },
+          "tempMaxC": {
+            "type": "number",
+            "title": "Tempmaxc"
+          },
+          "tempMinC": {
+            "type": "number",
+            "title": "Tempminc"
+          },
+          "precipitationProbabilityMax": {
+            "type": "integer",
+            "title": "Precipitationprobabilitymax"
+          },
+          "precipitationSumMm": {
+            "type": "number",
+            "title": "Precipitationsummm"
+          },
+          "windSpeedMaxKmh": {
+            "type": "number",
+            "title": "Windspeedmaxkmh"
+          },
+          "weatherCode": {
+            "type": "integer",
+            "title": "Weathercode"
+          },
+          "weatherDescriptionBn": {
+            "type": "string",
+            "title": "Weatherdescriptionbn"
+          },
+          "activityRecommendations": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityRecommendationSchema"
+            },
+            "type": "array",
+            "title": "Activityrecommendations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "date",
+          "tempMaxC",
+          "tempMinC",
+          "precipitationProbabilityMax",
+          "precipitationSumMm",
+          "windSpeedMaxKmh",
+          "weatherCode",
+          "weatherDescriptionBn"
+        ],
+        "title": "DailyForecastSchema"
+      },
+      "EquipmentCreateRequest": {
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Name"
+          },
+          "equipment_type": {
+            "$ref": "#/components/schemas/EquipmentType"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "price_amount": {
+            "type": "integer",
+            "minimum": 10.0,
+            "title": "Price Amount",
+            "description": "Price in BDT"
+          },
+          "price_unit": {
+            "$ref": "#/components/schemas/PriceUnit"
+          },
+          "district": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "District"
+          },
+          "upazila": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Upazila"
+          },
+          "latitude": {
+            "type": "number",
+            "maximum": 90.0,
+            "minimum": -90.0,
+            "title": "Latitude"
+          },
+          "longitude": {
+            "type": "number",
+            "maximum": 180.0,
+            "minimum": -180.0,
+            "title": "Longitude"
+          },
+          "service_radius_km": {
+            "type": "number",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Service Radius Km",
+            "default": 15.0
+          }
+        },
+        "type": "object",
+        "required": [
+          "name",
+          "equipment_type",
+          "price_amount",
+          "price_unit",
+          "district",
+          "upazila",
+          "latitude",
+          "longitude"
+        ],
+        "title": "EquipmentCreateRequest"
+      },
+      "EquipmentResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "ownerId": {
+            "type": "string",
+            "title": "Ownerid"
+          },
+          "name": {
+            "type": "string",
+            "title": "Name"
+          },
+          "equipmentType": {
+            "$ref": "#/components/schemas/EquipmentType"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "priceAmount": {
+            "type": "integer",
+            "title": "Priceamount"
+          },
+          "priceUnit": {
+            "$ref": "#/components/schemas/PriceUnit"
+          },
+          "district": {
+            "type": "string",
+            "title": "District"
+          },
+          "upazila": {
+            "type": "string",
+            "title": "Upazila"
+          },
+          "serviceRadiusKm": {
+            "type": "number",
+            "title": "Serviceradiuskm"
+          },
+          "isAvailable": {
+            "type": "boolean",
+            "title": "Isavailable"
+          },
+          "isPaused": {
+            "type": "boolean",
+            "title": "Ispaused"
+          },
+          "approximateLat": {
+            "type": "number",
+            "title": "Approximatelat"
+          },
+          "approximateLon": {
+            "type": "number",
+            "title": "Approximatelon"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          },
+          "ranking": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RankingBreakdownSchema"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "ownerId",
+          "name",
+          "equipmentType",
+          "priceAmount",
+          "priceUnit",
+          "district",
+          "upazila",
+          "serviceRadiusKm",
+          "isAvailable",
+          "isPaused",
+          "approximateLat",
+          "approximateLon",
+          "createdAt"
+        ],
+        "title": "EquipmentResponse"
+      },
+      "EquipmentType": {
+        "type": "string",
+        "enum": [
+          "tractor",
+          "harvester",
+          "pump",
+          "sprayer",
+          "power_tiller",
+          "other"
+        ],
+        "title": "EquipmentType"
+      },
+      "EquipmentUpdateRequest": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100,
+                "minLength": 2
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "price_amount": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "minimum": 10.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Price Amount"
+          },
+          "service_radius_km": {
+            "anyOf": [
+              {
+                "type": "number",
+                "maximum": 100.0,
+                "minimum": 1.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Service Radius Km"
+          },
+          "is_available": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Available"
+          },
+          "is_paused": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Paused"
+          }
+        },
+        "type": "object",
+        "title": "EquipmentUpdateRequest"
+      },
+      "EquipmentWeatherAdvisoryResponse": {
+        "properties": {
+          "equipmentType": {
+            "type": "string",
+            "title": "Equipmenttype"
+          },
+          "targetDate": {
+            "type": "string",
+            "title": "Targetdate"
+          },
+          "isSafeToOperate": {
+            "type": "boolean",
+            "title": "Issafetooperate"
+          },
+          "warning": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/MachineryWeatherWarningSchema"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "adviceBn": {
+            "type": "string",
+            "title": "Advicebn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "equipmentType",
+          "targetDate",
+          "isSafeToOperate",
+          "adviceBn"
+        ],
+        "title": "EquipmentWeatherAdvisoryResponse"
+      },
+      "ExpertCaseReviewCreateRequest": {
+        "properties": {
+          "reviewed_diagnosis": {
+            "type": "string",
+            "maxLength": 150,
+            "minLength": 2,
+            "title": "Reviewed Diagnosis"
+          },
+          "prescribed_treatment": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 10,
+            "title": "Prescribed Treatment"
+          },
+          "severity_level": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Severity Level",
+            "default": "moderate"
+          },
+          "expert_notes": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expert Notes"
+          }
+        },
+        "type": "object",
+        "required": [
+          "reviewed_diagnosis",
+          "prescribed_treatment"
+        ],
+        "title": "ExpertCaseReviewCreateRequest"
+      },
+      "ExpertCaseReviewResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "cropCaseId": {
+            "type": "string",
+            "title": "Cropcaseid"
+          },
+          "expertId": {
+            "type": "string",
+            "title": "Expertid"
+          },
+          "expertName": {
+            "type": "string",
+            "title": "Expertname"
+          },
+          "reviewedDiagnosis": {
+            "type": "string",
+            "title": "Revieweddiagnosis"
+          },
+          "prescribedTreatment": {
+            "type": "string",
+            "title": "Prescribedtreatment"
+          },
+          "severityLevel": {
+            "type": "string",
+            "title": "Severitylevel"
+          },
+          "expertNotes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Expertnotes"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cropCaseId",
+          "expertId",
+          "expertName",
+          "reviewedDiagnosis",
+          "prescribedTreatment",
+          "severityLevel",
+          "createdAt"
+        ],
+        "title": "ExpertCaseReviewResponse"
+      },
+      "FeedbackType": {
+        "type": "string",
+        "enum": [
+          "helpful",
+          "not_helpful",
+          "incorrect",
+          "unsafe"
+        ],
+        "title": "FeedbackType"
+      },
+      "GoNoGoReadinessChecklist": {
+        "properties": {
+          "security_safety_ok": {
+            "type": "boolean",
+            "title": "Security Safety Ok"
+          },
+          "core_journeys_ok": {
+            "type": "boolean",
+            "title": "Core Journeys Ok"
+          },
+          "moderation_capacity_ok": {
+            "type": "boolean",
+            "title": "Moderation Capacity Ok"
+          },
+          "ai_limitations_understood_ok": {
+            "type": "boolean",
+            "title": "Ai Limitations Understood Ok"
+          },
+          "architecture_bottlenecks_measured": {
+            "type": "boolean",
+            "title": "Architecture Bottlenecks Measured"
+          },
+          "overall_status": {
+            "type": "string",
+            "title": "Overall Status"
+          }
+        },
+        "type": "object",
+        "required": [
+          "security_safety_ok",
+          "core_journeys_ok",
+          "moderation_capacity_ok",
+          "ai_limitations_understood_ok",
+          "architecture_bottlenecks_measured",
+          "overall_status"
+        ],
+        "title": "GoNoGoReadinessChecklist"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Service status",
+            "default": "ok"
+          },
+          "appName": {
+            "type": "string",
+            "title": "Appname",
+            "description": "Application name"
+          },
+          "environment": {
+            "type": "string",
+            "title": "Environment",
+            "description": "Running environment"
+          },
+          "version": {
+            "type": "string",
+            "title": "Version",
+            "description": "API version",
+            "default": "0.1.0"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "Current UTC timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "appName",
+          "environment",
+          "timestamp"
+        ],
+        "title": "HealthResponse"
+      },
+      "KnowledgeArticleCreateRequest": {
+        "properties": {
+          "cropType": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "title": "Croptype"
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "title": "Category"
+          },
+          "titleBn": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 3,
+            "title": "Titlebn"
+          },
+          "titleEn": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 200
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Titleen"
+          },
+          "summaryBn": {
+            "type": "string",
+            "minLength": 10,
+            "title": "Summarybn"
+          },
+          "contentBn": {
+            "type": "string",
+            "minLength": 20,
+            "title": "Contentbn"
+          },
+          "recommendedPracticesBn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendedpracticesbn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cropType",
+          "category",
+          "titleBn",
+          "summaryBn",
+          "contentBn"
+        ],
+        "title": "KnowledgeArticleCreateRequest"
+      },
+      "KnowledgeArticleResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "cropType": {
+            "type": "string",
+            "title": "Croptype"
+          },
+          "category": {
+            "type": "string",
+            "title": "Category"
+          },
+          "titleBn": {
+            "type": "string",
+            "title": "Titlebn"
+          },
+          "titleEn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Titleen"
+          },
+          "summaryBn": {
+            "type": "string",
+            "title": "Summarybn"
+          },
+          "contentBn": {
+            "type": "string",
+            "title": "Contentbn"
+          },
+          "recommendedPracticesBn": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Recommendedpracticesbn"
+          },
+          "version": {
+            "type": "integer",
+            "title": "Version"
+          },
+          "publishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Publishedat"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updatedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "cropType",
+          "category",
+          "titleBn",
+          "summaryBn",
+          "contentBn",
+          "version",
+          "publishedAt",
+          "updatedAt"
+        ],
+        "title": "KnowledgeArticleResponse"
+      },
+      "KnowledgeCatalogResponse": {
+        "properties": {
+          "articles": {
+            "items": {
+              "$ref": "#/components/schemas/KnowledgeArticleResponse"
+            },
+            "type": "array",
+            "title": "Articles"
+          },
+          "totalCount": {
+            "type": "integer",
+            "title": "Totalcount"
+          },
+          "latestVersion": {
+            "type": "integer",
+            "title": "Latestversion"
+          },
+          "syncedAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Syncedat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "articles",
+          "totalCount",
+          "latestVersion",
+          "syncedAt"
+        ],
+        "title": "KnowledgeCatalogResponse"
+      },
+      "LoginRequest": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "Phone",
+            "description": "Mobile number"
+          },
+          "password": {
+            "type": "string",
+            "title": "Password",
+            "description": "Account password"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone",
+          "password"
+        ],
+        "title": "LoginRequest"
+      },
+      "MachineryWeatherWarningSchema": {
+        "properties": {
+          "warningLevel": {
+            "type": "string",
+            "title": "Warninglevel"
+          },
+          "titleBn": {
+            "type": "string",
+            "title": "Titlebn"
+          },
+          "messageBn": {
+            "type": "string",
+            "title": "Messagebn"
+          },
+          "affectedEquipment": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "title": "Affectedequipment"
+          }
+        },
+        "type": "object",
+        "required": [
+          "warningLevel",
+          "titleBn",
+          "messageBn"
+        ],
+        "title": "MachineryWeatherWarningSchema"
+      },
+      "MessageCreateRequest": {
+        "properties": {
+          "content": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 1,
+            "title": "Content"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "title": "MessageCreateRequest"
+      },
+      "MessageResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "conversationId": {
+            "type": "string",
+            "title": "Conversationid"
+          },
+          "senderId": {
+            "type": "string",
+            "title": "Senderid"
+          },
+          "senderName": {
+            "type": "string",
+            "title": "Sendername"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content"
+          },
+          "isRead": {
+            "type": "boolean",
+            "title": "Isread"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "conversationId",
+          "senderId",
+          "senderName",
+          "content",
+          "isRead",
+          "createdAt"
+        ],
+        "title": "MessageResponse"
+      },
+      "ModerationReportCreateRequest": {
+        "properties": {
+          "reported_user_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reported User Id"
+          },
+          "content_type": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Content Type"
+          },
+          "content_id": {
+            "type": "string",
+            "maxLength": 36,
+            "title": "Content Id"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Reason"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          }
+        },
+        "type": "object",
+        "required": [
+          "content_type",
+          "content_id",
+          "reason"
+        ],
+        "title": "ModerationReportCreateRequest"
+      },
+      "ModerationReportDetailResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "reporterId": {
+            "type": "string",
+            "title": "Reporterid"
+          },
+          "reporterName": {
+            "type": "string",
+            "title": "Reportername"
+          },
+          "reportedUserId": {
+            "type": "string",
+            "title": "Reporteduserid"
+          },
+          "reportedUserName": {
+            "type": "string",
+            "title": "Reportedusername"
+          },
+          "contentType": {
+            "type": "string",
+            "title": "Contenttype"
+          },
+          "contentId": {
+            "type": "string",
+            "title": "Contentid"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "reporterId",
+          "reporterName",
+          "reportedUserId",
+          "reportedUserName",
+          "contentType",
+          "contentId",
+          "reason",
+          "status",
+          "createdAt"
+        ],
+        "title": "ModerationReportDetailResponse"
+      },
+      "ModerationReportResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "reporterId": {
+            "type": "string",
+            "title": "Reporterid"
+          },
+          "reportedUserId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reporteduserid"
+          },
+          "contentType": {
+            "type": "string",
+            "title": "Contenttype"
+          },
+          "contentId": {
+            "type": "string",
+            "title": "Contentid"
+          },
+          "reason": {
+            "type": "string",
+            "title": "Reason"
+          },
+          "details": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Details"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "reporterId",
+          "contentType",
+          "contentId",
+          "reason",
+          "status",
+          "createdAt"
+        ],
+        "title": "ModerationReportResponse"
+      },
+      "ModerationVolumeMetrics": {
+        "properties": {
+          "total_messages": {
+            "type": "integer",
+            "title": "Total Messages"
+          },
+          "total_reports": {
+            "type": "integer",
+            "title": "Total Reports"
+          },
+          "pending_reports": {
+            "type": "integer",
+            "title": "Pending Reports"
+          },
+          "report_rate_pct": {
+            "type": "number",
+            "title": "Report Rate Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_messages",
+          "total_reports",
+          "pending_reports",
+          "report_rate_pct"
+        ],
+        "title": "ModerationVolumeMetrics"
+      },
+      "NetworkAndLatencyMetrics": {
+        "properties": {
+          "avg_latency_ms": {
+            "type": "number",
+            "title": "Avg Latency Ms"
+          },
+          "total_latency_samples": {
+            "type": "integer",
+            "title": "Total Latency Samples"
+          },
+          "network_breakdown": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Network Breakdown"
+          },
+          "device_breakdown": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object",
+            "title": "Device Breakdown"
+          }
+        },
+        "type": "object",
+        "required": [
+          "avg_latency_ms",
+          "total_latency_samples",
+          "network_breakdown",
+          "device_breakdown"
+        ],
+        "title": "NetworkAndLatencyMetrics"
+      },
+      "OfflineSyncReliabilityMetrics": {
+        "properties": {
+          "total_sync_operations": {
+            "type": "integer",
+            "title": "Total Sync Operations"
+          },
+          "successful_syncs": {
+            "type": "integer",
+            "title": "Successful Syncs"
+          },
+          "sync_success_rate_pct": {
+            "type": "number",
+            "title": "Sync Success Rate Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_sync_operations",
+          "successful_syncs",
+          "sync_success_rate_pct"
+        ],
+        "title": "OfflineSyncReliabilityMetrics"
+      },
+      "PilotDistrictCropConfig": {
+        "properties": {
+          "pilot_name": {
+            "type": "string",
+            "title": "Pilot Name"
+          },
+          "pilot_phase": {
+            "type": "string",
+            "title": "Pilot Phase"
+          },
+          "approved_districts": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Approved Districts"
+          },
+          "approved_crops": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Approved Crops"
+          },
+          "onboarding_checklist": {
+            "items": {
+              "additionalProperties": {
+                "type": "string"
+              },
+              "type": "object"
+            },
+            "type": "array",
+            "title": "Onboarding Checklist"
+          },
+          "ai_limitations_notice": {
+            "type": "string",
+            "title": "Ai Limitations Notice"
+          }
+        },
+        "type": "object",
+        "required": [
+          "pilot_name",
+          "pilot_phase",
+          "approved_districts",
+          "approved_crops",
+          "onboarding_checklist",
+          "ai_limitations_notice"
+        ],
+        "title": "PilotDistrictCropConfig",
+        "description": "Configuration and guidelines for the controlled pilot."
+      },
+      "PilotFeedbackCreate": {
+        "properties": {
+          "task_type": {
+            "type": "string",
+            "maxLength": 50,
+            "minLength": 2,
+            "title": "Task Type",
+            "description": "e.g. crop_diagnosis, equipment_rental, weather_plan, crop_marketplace, offline_sync, general_onboarding"
+          },
+          "ease_of_use_rating": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Ease Of Use Rating",
+            "description": "1 (very difficult) to 5 (very easy)"
+          },
+          "bangla_comprehension_rating": {
+            "type": "integer",
+            "maximum": 5.0,
+            "minimum": 1.0,
+            "title": "Bangla Comprehension Rating",
+            "description": "1 (unclear) to 5 (crystal clear)"
+          },
+          "ai_limitations_understood": {
+            "type": "boolean",
+            "title": "Ai Limitations Understood",
+            "description": "User acknowledges AI is decision support, not agricultural officer replacement",
+            "default": true
+          },
+          "device_category": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Device Category",
+            "description": "low_end_android, mid_android, feature_browser, desktop, other",
+            "default": "low_end_android"
+          },
+          "network_type": {
+            "type": "string",
+            "maxLength": 50,
+            "title": "Network Type",
+            "description": "2g_slow, 3g, 4g_wifi, offline_intermittent",
+            "default": "4g_wifi"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "integer",
+                "maximum": 60000.0,
+                "minimum": 0.0
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms",
+            "description": "Observed action latency in ms"
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 1000
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comments",
+            "description": "Optional qualitative feedback"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "upazila": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upazila"
+          }
+        },
+        "additionalProperties": false,
+        "type": "object",
+        "required": [
+          "task_type",
+          "ease_of_use_rating",
+          "bangla_comprehension_rating"
+        ],
+        "title": "PilotFeedbackCreate",
+        "description": "Input payload for a farmer or pilot participant submitting task feedback."
+      },
+      "PilotFeedbackResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "user_id": {
+            "type": "string",
+            "title": "User Id"
+          },
+          "task_type": {
+            "type": "string",
+            "title": "Task Type"
+          },
+          "ease_of_use_rating": {
+            "type": "integer",
+            "title": "Ease Of Use Rating"
+          },
+          "bangla_comprehension_rating": {
+            "type": "integer",
+            "title": "Bangla Comprehension Rating"
+          },
+          "ai_limitations_understood": {
+            "type": "boolean",
+            "title": "Ai Limitations Understood"
+          },
+          "device_category": {
+            "type": "string",
+            "title": "Device Category"
+          },
+          "network_type": {
+            "type": "string",
+            "title": "Network Type"
+          },
+          "latency_ms": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Latency Ms"
+          },
+          "comments": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Comments"
+          },
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "upazila": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upazila"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_id",
+          "task_type",
+          "ease_of_use_rating",
+          "bangla_comprehension_rating",
+          "ai_limitations_understood",
+          "device_category",
+          "network_type",
+          "latency_ms",
+          "comments",
+          "district",
+          "upazila",
+          "created_at"
+        ],
+        "title": "PilotFeedbackResponse",
+        "description": "Output representation of stored pilot feedback."
+      },
+      "PilotTelemetryMetrics": {
+        "properties": {
+          "activation_and_tasks": {
+            "$ref": "#/components/schemas/ActivationAndTasksMetrics"
+          },
+          "ai_escalation": {
+            "$ref": "#/components/schemas/AIEscalationMetrics"
+          },
+          "rental_conversion": {
+            "$ref": "#/components/schemas/RentalConversionMetrics"
+          },
+          "offline_sync_reliability": {
+            "$ref": "#/components/schemas/OfflineSyncReliabilityMetrics"
+          },
+          "moderation_volume": {
+            "$ref": "#/components/schemas/ModerationVolumeMetrics"
+          },
+          "network_and_latency": {
+            "$ref": "#/components/schemas/NetworkAndLatencyMetrics"
+          },
+          "comprehension_and_usability": {
+            "$ref": "#/components/schemas/ComprehensionAndUsabilityMetrics"
+          },
+          "go_no_go_checklist": {
+            "$ref": "#/components/schemas/GoNoGoReadinessChecklist"
+          }
+        },
+        "type": "object",
+        "required": [
+          "activation_and_tasks",
+          "ai_escalation",
+          "rental_conversion",
+          "offline_sync_reliability",
+          "moderation_volume",
+          "network_and_latency",
+          "comprehension_and_usability",
+          "go_no_go_checklist"
+        ],
+        "title": "PilotTelemetryMetrics",
+        "description": "Authoritative platform telemetry for Phase 9 Controlled Pilot."
+      },
+      "PriceUnit": {
+        "type": "string",
+        "enum": [
+          "per_hour",
+          "per_day",
+          "per_acre"
+        ],
+        "title": "PriceUnit"
+      },
+      "QuantityUnit": {
+        "type": "string",
+        "enum": [
+          "maund",
+          "kg",
+          "ton"
+        ],
+        "title": "QuantityUnit"
+      },
+      "RankingBreakdownSchema": {
+        "properties": {
+          "priceScore": {
+            "type": "number",
+            "title": "Pricescore"
+          },
+          "distanceScore": {
+            "type": "number",
+            "title": "Distancescore"
+          },
+          "rankingScore": {
+            "type": "number",
+            "title": "Rankingscore"
+          },
+          "distanceKm": {
+            "type": "number",
+            "title": "Distancekm"
+          }
+        },
+        "type": "object",
+        "required": [
+          "priceScore",
+          "distanceScore",
+          "rankingScore",
+          "distanceKm"
+        ],
+        "title": "RankingBreakdownSchema"
+      },
+      "ReadinessResponse": {
+        "properties": {
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "Overall readiness status",
+            "default": "ready"
+          },
+          "database": {
+            "type": "string",
+            "title": "Database",
+            "description": "Database connectivity status"
+          },
+          "storage": {
+            "type": "string",
+            "title": "Storage",
+            "description": "Object storage status"
+          },
+          "providers": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "type": "object",
+            "title": "Providers",
+            "description": "External provider circuit breaker states"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "Current UTC timestamp"
+          }
+        },
+        "type": "object",
+        "required": [
+          "database",
+          "storage",
+          "providers",
+          "timestamp"
+        ],
+        "title": "ReadinessResponse"
+      },
+      "RefreshRequest": {
+        "properties": {
+          "refreshToken": {
+            "type": "string",
+            "title": "Refreshtoken"
+          }
+        },
+        "type": "object",
+        "required": [
+          "refreshToken"
+        ],
+        "title": "RefreshRequest"
+      },
+      "RegisterRequest": {
+        "properties": {
+          "phone": {
+            "type": "string",
+            "title": "Phone",
+            "description": "Bangladeshi mobile number"
+          },
+          "password": {
+            "type": "string",
+            "minLength": 10,
+            "title": "Password",
+            "description": "Minimum 10 characters password"
+          },
+          "full_name": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Full Name",
+            "description": "User's full name"
+          },
+          "role": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/UserRole"
+              }
+            ],
+            "description": "Initial account role",
+            "default": "farmer"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string",
+                "pattern": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email",
+            "description": "Optional email address"
+          }
+        },
+        "type": "object",
+        "required": [
+          "phone",
+          "password",
+          "full_name"
+        ],
+        "title": "RegisterRequest"
+      },
+      "RentalConversionMetrics": {
+        "properties": {
+          "total_rental_requests": {
+            "type": "integer",
+            "title": "Total Rental Requests"
+          },
+          "accepted_rentals": {
+            "type": "integer",
+            "title": "Accepted Rentals"
+          },
+          "conversion_rate_pct": {
+            "type": "number",
+            "title": "Conversion Rate Pct"
+          }
+        },
+        "type": "object",
+        "required": [
+          "total_rental_requests",
+          "accepted_rentals",
+          "conversion_rate_pct"
+        ],
+        "title": "RentalConversionMetrics"
+      },
+      "RentalRequestCreate": {
+        "properties": {
+          "equipment_id": {
+            "type": "string",
+            "title": "Equipment Id"
+          },
+          "rental_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Rental Date"
+          },
+          "duration_units": {
+            "type": "integer",
+            "minimum": 1.0,
+            "title": "Duration Units",
+            "default": 1
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 500
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "idempotency_key": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 64
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idempotency Key"
+          }
+        },
+        "type": "object",
+        "required": [
+          "equipment_id",
+          "rental_date"
+        ],
+        "title": "RentalRequestCreate"
+      },
+      "RentalRequestResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "equipmentId": {
+            "type": "string",
+            "title": "Equipmentid"
+          },
+          "renterId": {
+            "type": "string",
+            "title": "Renterid"
+          },
+          "rentalDate": {
+            "type": "string",
+            "format": "date",
+            "title": "Rentaldate"
+          },
+          "durationUnits": {
+            "type": "integer",
+            "title": "Durationunits"
+          },
+          "totalEstimatedPrice": {
+            "type": "integer",
+            "title": "Totalestimatedprice"
+          },
+          "status": {
+            "$ref": "#/components/schemas/RentalStatus"
+          },
+          "note": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Note"
+          },
+          "idempotencyKey": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Idempotencykey"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "equipmentId",
+          "renterId",
+          "rentalDate",
+          "durationUnits",
+          "totalEstimatedPrice",
+          "status",
+          "createdAt"
+        ],
+        "title": "RentalRequestResponse"
+      },
+      "RentalStatus": {
+        "type": "string",
+        "enum": [
+          "pending",
+          "accepted",
+          "rejected",
+          "cancelled",
+          "completed"
+        ],
+        "title": "RentalStatus"
+      },
+      "RentalStatusUpdateRequest": {
+        "properties": {
+          "target_status": {
+            "$ref": "#/components/schemas/RentalStatus"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_status"
+        ],
+        "title": "RentalStatusUpdateRequest"
+      },
+      "ReportResolveRequest": {
+        "properties": {
+          "action": {
+            "type": "string",
+            "pattern": "^(dismiss|warn|hide_content|suspend_user)$",
+            "title": "Action",
+            "description": "Action taken on the report"
+          },
+          "resolutionNotes": {
+            "type": "string",
+            "maxLength": 1000,
+            "minLength": 5,
+            "title": "Resolutionnotes",
+            "description": "Justification and notes recorded in audit log"
+          }
+        },
+        "type": "object",
+        "required": [
+          "action",
+          "resolutionNotes"
+        ],
+        "title": "ReportResolveRequest"
+      },
+      "RoleOnboardingRequest": {
+        "properties": {
+          "district": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "District"
+          },
+          "upazila": {
+            "anyOf": [
+              {
+                "type": "string",
+                "maxLength": 100
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upazila"
+          },
+          "primaryCrops": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Primarycrops"
+          },
+          "serviceRadiusKm": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Serviceradiuskm"
+          },
+          "businessName": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Businessname"
+          },
+          "designation": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Designation"
+          },
+          "organization": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Organization"
+          }
+        },
+        "type": "object",
+        "required": [
+          "district"
+        ],
+        "title": "RoleOnboardingRequest"
+      },
+      "SuitabilityLevel": {
+        "type": "string",
+        "enum": [
+          "suitable",
+          "caution",
+          "unfavorable"
+        ],
+        "title": "SuitabilityLevel"
+      },
+      "SyncBatchRequest": {
+        "properties": {
+          "mutations": {
+            "items": {
+              "$ref": "#/components/schemas/SyncMutationItem"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "title": "Mutations"
+          }
+        },
+        "type": "object",
+        "required": [
+          "mutations"
+        ],
+        "title": "SyncBatchRequest"
+      },
+      "SyncBatchResponse": {
+        "properties": {
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/SyncMutationResult"
+            },
+            "type": "array",
+            "title": "Results"
+          },
+          "syncedCount": {
+            "type": "integer",
+            "title": "Syncedcount"
+          },
+          "failedCount": {
+            "type": "integer",
+            "title": "Failedcount"
+          }
+        },
+        "type": "object",
+        "required": [
+          "results",
+          "syncedCount",
+          "failedCount"
+        ],
+        "title": "SyncBatchResponse"
+      },
+      "SyncMutationItem": {
+        "properties": {
+          "localUuid": {
+            "type": "string",
+            "maxLength": 64,
+            "minLength": 10,
+            "title": "Localuuid"
+          },
+          "idempotencyKey": {
+            "type": "string",
+            "maxLength": 128,
+            "minLength": 8,
+            "title": "Idempotencykey"
+          },
+          "operationName": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 3,
+            "title": "Operationname"
+          },
+          "payload": {
+            "type": "object",
+            "title": "Payload"
+          },
+          "createdAt": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Createdat"
+          }
+        },
+        "type": "object",
+        "required": [
+          "localUuid",
+          "idempotencyKey",
+          "operationName",
+          "payload"
+        ],
+        "title": "SyncMutationItem"
+      },
+      "SyncMutationResult": {
+        "properties": {
+          "localUuid": {
+            "type": "string",
+            "title": "Localuuid"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status"
+          },
+          "statusCode": {
+            "type": "integer",
+            "title": "Statuscode"
+          },
+          "code": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Code"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message"
+          },
+          "data": {
+            "anyOf": [
+              {},
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Data"
+          }
+        },
+        "type": "object",
+        "required": [
+          "localUuid",
+          "status",
+          "statusCode",
+          "message"
+        ],
+        "title": "SyncMutationResult"
+      },
+      "TokenResponse": {
+        "properties": {
+          "accessToken": {
+            "type": "string",
+            "title": "Accesstoken"
+          },
+          "refreshToken": {
+            "type": "string",
+            "title": "Refreshtoken"
+          },
+          "tokenType": {
+            "type": "string",
+            "title": "Tokentype",
+            "default": "bearer"
+          },
+          "expiresIn": {
+            "type": "integer",
+            "title": "Expiresin"
+          }
+        },
+        "type": "object",
+        "required": [
+          "accessToken",
+          "refreshToken",
+          "expiresIn"
+        ],
+        "title": "TokenResponse"
+      },
+      "UserBlockRequest": {
+        "properties": {
+          "target_user_id": {
+            "type": "string",
+            "title": "Target User Id"
+          }
+        },
+        "type": "object",
+        "required": [
+          "target_user_id"
+        ],
+        "title": "UserBlockRequest"
+      },
+      "UserResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id"
+          },
+          "phone": {
+            "type": "string",
+            "title": "Phone"
+          },
+          "email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Email"
+          },
+          "fullName": {
+            "type": "string",
+            "title": "Fullname"
+          },
+          "role": {
+            "type": "string",
+            "title": "Role"
+          },
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          },
+          "isVerified": {
+            "type": "boolean",
+            "title": "Isverified"
+          },
+          "hasProfile": {
+            "type": "boolean",
+            "title": "Hasprofile",
+            "default": false
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "phone",
+          "fullName",
+          "role",
+          "isActive",
+          "isVerified"
+        ],
+        "title": "UserResponse"
+      },
+      "UserRole": {
+        "type": "string",
+        "enum": [
+          "farmer",
+          "owner",
+          "buyer",
+          "expert",
+          "moderator",
+          "admin"
+        ],
+        "title": "UserRole"
+      },
+      "UserStatusToggleRequest": {
+        "properties": {
+          "isActive": {
+            "type": "boolean",
+            "title": "Isactive"
+          },
+          "reason": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 5,
+            "title": "Reason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "isActive",
+          "reason"
+        ],
+        "title": "UserStatusToggleRequest"
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      },
+      "WeatherFactSchema": {
+        "properties": {
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp"
+          },
+          "temperatureC": {
+            "type": "number",
+            "title": "Temperaturec"
+          },
+          "feelsLikeC": {
+            "type": "number",
+            "title": "Feelslikec"
+          },
+          "relativeHumidity": {
+            "type": "integer",
+            "title": "Relativehumidity"
+          },
+          "precipitationProbability": {
+            "type": "integer",
+            "title": "Precipitationprobability"
+          },
+          "precipitationMm": {
+            "type": "number",
+            "title": "Precipitationmm"
+          },
+          "windSpeedKmh": {
+            "type": "number",
+            "title": "Windspeedkmh"
+          },
+          "windGustKmh": {
+            "type": "number",
+            "title": "Windgustkmh"
+          },
+          "weatherCode": {
+            "type": "integer",
+            "title": "Weathercode"
+          },
+          "weatherDescriptionBn": {
+            "type": "string",
+            "title": "Weatherdescriptionbn"
+          }
+        },
+        "type": "object",
+        "required": [
+          "timestamp",
+          "temperatureC",
+          "feelsLikeC",
+          "relativeHumidity",
+          "precipitationProbability",
+          "precipitationMm",
+          "windSpeedKmh",
+          "windGustKmh",
+          "weatherCode",
+          "weatherDescriptionBn"
+        ],
+        "title": "WeatherFactSchema"
+      },
+      "WeatherLocationSchema": {
+        "properties": {
+          "district": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "District"
+          },
+          "upazila": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Upazila"
+          },
+          "approximateLat": {
+            "type": "number",
+            "title": "Approximatelat"
+          },
+          "approximateLon": {
+            "type": "number",
+            "title": "Approximatelon"
+          }
+        },
+        "type": "object",
+        "required": [
+          "approximateLat",
+          "approximateLon"
+        ],
+        "title": "WeatherLocationSchema"
+      },
+      "WeatherPlanResponse": {
+        "properties": {
+          "location": {
+            "$ref": "#/components/schemas/WeatherLocationSchema"
+          },
+          "facts": {
+            "$ref": "#/components/schemas/WeatherFactSchema"
+          },
+          "activityWindows": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityRecommendationSchema"
+            },
+            "type": "array",
+            "title": "Activitywindows"
+          },
+          "threeDayForecast": {
+            "items": {
+              "$ref": "#/components/schemas/DailyForecastSchema"
+            },
+            "type": "array",
+            "title": "Threedayforecast"
+          },
+          "equipmentWarnings": {
+            "items": {
+              "$ref": "#/components/schemas/MachineryWeatherWarningSchema"
+            },
+            "type": "array",
+            "title": "Equipmentwarnings"
+          },
+          "providerName": {
+            "type": "string",
+            "title": "Providername"
+          },
+          "attribution": {
+            "type": "string",
+            "title": "Attribution"
+          },
+          "providerTimestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Providertimestamp"
+          },
+          "isStale": {
+            "type": "boolean",
+            "title": "Isstale",
+            "default": false
+          },
+          "staleReason": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Stalereason"
+          }
+        },
+        "type": "object",
+        "required": [
+          "location",
+          "facts",
+          "activityWindows",
+          "threeDayForecast",
+          "providerName",
+          "attribution",
+          "providerTimestamp"
+        ],
+        "title": "WeatherPlanResponse"
+      }
+    }
+  }
+}
